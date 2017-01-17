@@ -1,0 +1,14 @@
+h1 {
+    text-align: center;
+}
+ol {
+    margin-top: 60px;
+}
+li{
+    margin-left: 20px;
+    line-height: 20px;
+    list-style: lower-alpha;
+}
+p {
+    margin-left: 20px;
+}

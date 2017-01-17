@@ -1,0 +1,96 @@
+html {
+    background: url(../images/pic.jpg) no-repeat fixed;
+    background-size: auto;
+    background-position: 155% 20%;
+    background-origin: padding-box;
+}
+
+html {
+    background-image: linear-gradient(rgba(111, 122, 138, 0.7), rgba(111, 122, 138, 0.8)),
+    url(../images/pic.jpg);
+}
+
+
+#logo {
+    margin-top: 5%;
+    margin-left: 2.5%;
+    float: left;
+    position: fixed;
+}
+
+ul {
+    list-style-type: none;
+    margin-top: 10%;
+    padding: 0;
+    width: 150px;
+    font-family: 'Fira Sans Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    position: fixed;
+    float: left;
+}
+
+li a{
+    display: block;
+    color: #243355;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a.active {
+    background-color: #ad2547;
+    color: white;
+}
+
+li a:hover:not(.active) {
+    background-color: #ad2547;
+    color: white;
+}
+
+.active {
+    background-color:black;
+    color: white;
+}
+
+header {
+    margin-left: 15%;
+    margin-top: 14%;
+    font-size: 27px;
+    line-height: 50px;
+    font-family: 'Passion One', cursive;
+    color: white;
+    position: fixed;
+    float: left;
+}
+
+#name {
+    font-size: 80px;
+}
+
+#marks {
+    color:#ad2547;
+}
+
+#designation {
+    color: #243355;
+}
+
+#social-media {
+    position: fixed;
+    float: left;
+    margin-left: 15%;
+    margin-top: 40%;
+}
+
+#social-media img {
+    margin-right: 10px;
+}
+
+#s {
+    color: #243355;
+}
+
+#m {
+    color: #ad2547;
+}
+

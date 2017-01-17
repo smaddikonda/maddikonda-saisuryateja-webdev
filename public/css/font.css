@@ -1,0 +1,15 @@
+h1 {
+    font-family: 'Permanent Marker', cursive;
+    color: red;
+}
+
+li{
+    font-family: 'Share', cursive;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+p {
+    font-size: 2em;
+    line-height: 1em;
+}
