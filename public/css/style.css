@@ -6,7 +6,7 @@ html {
 }
 
 html {
-    background-image: linear-gradient(rgba(111, 122, 138, 0.7), rgba(111, 122, 138, 0.8)),
+    background-image: linear-gradient(rgba(111, 122, 138, 0.6), rgba(111, 122, 138, 0.6)),
     url(../images/pic.jpg);
 }
 
