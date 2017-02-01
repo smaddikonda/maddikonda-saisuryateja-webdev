@@ -50,3 +50,7 @@ body {
 .glyphicon {
     font-size: 18px !important;
 }
+
+.sm-textarea{
+    resize: vertical;
+}
