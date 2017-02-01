@@ -5,3 +5,48 @@ input.form-control {
 body {
     padding-top: 36px;
 }
+
+.sm-navbar {
+    background-color: dodgerblue;
+    padding: 0px;
+    margin: 0px;
+}
+
+.sm-navbar-brand {
+    color: white !important;
+}
+
+.sm-list-list-group{
+    padding-top: 36px;
+}
+
+.sm-navbar-glyphicon{
+    color: white;
+}
+
+.sm-main-body{
+    padding-top: 36px;
+    padding-bottom: 72px;
+}
+
+.sm-elements {
+    padding-bottom: 10px;
+}
+
+.sm-visual-content{
+    height: 50vh;
+}
+
+.sm-widget-glyphicons{
+    background-color: whitesmoke;
+    padding: 3px 3px 3px 3px;
+    position: absolute;
+    z-index: 2;
+    top: 0px;
+    right: 0px;
+    border-radius: 4px;
+}
+
+.glyphicon {
+    font-size: 18px !important;
+}
