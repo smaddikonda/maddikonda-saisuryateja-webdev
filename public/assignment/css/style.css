@@ -7,8 +7,8 @@ body {
 }
 
 .sm-navbar {
-    background-color: dodgerblue;
-    padding: 0px;
+    background-color: dodgerblue !important;
+    padding: px;
     margin: 0px;
 }
 
@@ -53,4 +53,21 @@ body {
 
 .sm-textarea{
     resize: vertical;
+}
+
+.sm-list-group-heading{
+    background-color: #5e5e5e !important;
+    color: #fbfffd !important;
+    font-weight: bolder !important;
+}
+
+.sm-list-glyphicon {
+    padding-right: 15px !important;
+}
+
+.sm-widget-list-page {
+    padding-top: 36px !important;
+    padding-bottom: 72px !important;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
 }

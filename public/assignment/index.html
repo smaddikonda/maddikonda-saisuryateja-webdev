@@ -1,15 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Assignment Home Page</title>
-</head>
-<body>
-    <h1>Assignment Home Page</h1>
-    <br>
-    <span style="display: inline">
-        <strong>Assignment 2 Landing Page:</strong>
-        <a href="user/login.html"><button>Click Here</button></a>
-    </span>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Web App Maker</title>
+
+        <!--css-->
+        <!--link href="css/bootstrap.css" rel="stylesheet"-->
+        <link href="css/style.css" rel="stylesheet"/>
+
+        <!--scripts-->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+        <script src="scripts/angular-route.js"></script>
+
+        <!--
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        -->
+        <!--
+        <script src="scripts/angular.js"></script>
+        <script src="scripts/jquery-1.6.1.min.js"></script>
+        -->
+
+        <script src="app.js"></script>
+        <script src="config.js"></script>
+
+        <!--user controllers-->
+        <script src="views/user/controllers/login.controller.client.js"></script>
+        <script src="views/user/controllers/register.controller.client.js"></script>
+        <script src="views/user/controllers/profile.controller.client.js"></script>
+        <!--website controllers-->
+        <script src="views/website/controllers/website-list.controller.client.js"></script>
+        <script src="views/website/controllers/website-new.controller.client.js"></script>
+        <script src="views/website/controllers/website-edit.controller.js"></script>
+        <!--page controllers-->
+        <script src="views/page/controllers/page-list.controller.client.js"></script>
+        <script src="views/page/controllers/page-new.controller.client.js"></script>
+        <script src="views/page/controllers/page-edit.controller.client.js"></script>
+        <!--widget controllers-->
+        <script src = views/widget/controllers/widget-list.controller.client.js></script>
+        <script src = views/widget/controllers/widget-new.controller.client.js></script>
+        <script src = views/widget/controllers/widget-edit.controller.client.js></script>
+
+        <!--services-->
+        <script src="services/user.service.client.js"></script>
+        <script src="services/website.service.client.js"></script>
+        <script src="services/page.service.client.js"></script>
+        <script src="services/widget.service.client.js"></script>
+
+    </head>
+
+    <body ng-app="WebAppMaker">
+        <div ng-view>
+        </div>
+    </body>
 </html>

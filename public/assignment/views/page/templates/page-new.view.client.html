@@ -1,0 +1,88 @@
+<nav class="navbar navbar-default navbar-fixed-top sm-navbar">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 hidden-xs hidden-sm">
+                <a class="pull-left navbar-text"
+                   href="#/user/{{model.userid}}/website/{{model.websiteid}}/page">
+                    <span class="glyphicon glyphicon-chevron-left sm-navbar-glyphicon"></span>
+                </a>
+                <a class="navbar-brand sm-navbar-brand"
+                   href="#/user/{{model.userid}}/website/{{model.websiteid}}/page">Page List</a>
+                <a class="pull-right navbar-text"
+                   href="#/user/{{model.userid}}/website/{{model.websiteid}}/page/new">
+                    <span class="glyphicon glyphicon-plus sm-navbar-glyphicon"></span>
+                </a>
+            </div>
+
+            <div class="visible-xs visible-sm visible-md visible-lg col-md-8 col-xs-12">
+                <a class="pull-left navbar-text navbar-link hidden-md hidden-lg"
+                   href="#/user/{{model.userid}}/website/{{model.websiteid}}/page">
+                    <span class="glyphicon glyphicon-chevron-left sm-navbar-glyphicon"></span>
+                </a>
+                <a class="navbar-brand sm-navbar-brand"
+                   href="#/user/{{model.userid}}/website/{{model.websiteid}}/page/new">New Page</a>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid sm-list-list-group hidden-xs hidden-sm col-md-4">
+    <ul class="list-group">
+        <li class="list-group-item sm-list-group-heading">
+            Website Name
+        </li>
+        <li class="list-group-item"
+            ng-repeat="page in model.pages">
+            <a href="#/user/{{model.userid}}/website/{{model.websiteid}}/page/:pid/widget">{{page.name}}</a>
+            <a class="pull-right" href="#/user/{{model.userid}}/website/{{model.websiteid}}/page/{{page._id}}">
+                <span class="glyphicon glyphicon-cog"></span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="container-fluid sm-main-body col-md-8 col-xs-12 visible-xs visible-sm visible-md visible-lg">
+
+    <div ng-show="model.error"
+         class="alert alert-danger"
+         role="alert">
+        {{model.error}}
+    </div>
+    <div ng-show="model.success"
+         class="alert alert-success"
+         role="alert">
+        {{model.success}}
+    </div>
+
+    <div class="sm-elements">
+        <label for="name">Name</label>
+        <input id = "name"
+               ng-model="pg.name"
+               type="text"
+               class="form-control"
+               placeholder="Page Name"/>
+    </div>
+    <div class="sm-elements">
+        <label for="title">Description</label>
+        <input id="title"
+               ng-model="pg.description"
+               type="text"
+               class="form-control"
+               placeholder="Page Title"/>
+    </div>
+    <div class="sm-elements">
+        <a class="btn btn-block btn-success"
+           ng-click="model.createPage(pg)">Create Page</a>
+    </div>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom sm-navbar">
+    <div class="container-fluid">
+        <div class="navbar-text pull-right">
+            <a href="/user/{{model.userid}}">
+                <span class="glyphicon glyphicon-user sm-navbar-glyphicon"></span>
+            </a>
+        </div>
+    </div>
+</nav>

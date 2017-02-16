@@ -1,0 +1,90 @@
+<nav class="navbar navbar-default navbar-fixed-top sm-navbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand sm-navbar-brand"
+               href="#/user/{{model.userid}}">Profile</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid sm-main-body">
+
+    <div ng-show="model.error"
+         class="alert alert-danger"
+         role="alert">
+        {{model.error}}
+    </div>
+
+    <div ng-show="model.success"
+         class="alert alert-success"
+         role="alert">
+        {{model.success}}
+    </div>
+
+    <form>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input ng-model="model.user.username"
+                   type="text"
+                   class="form-control"
+                   id="username"
+                   placeholder="Username">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input ng-model="model.user.password"
+                   id="password"
+                   type="password"
+                   class="form-control"
+                   placeholder="Password"/>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input ng-model="model.user.email"
+                   type="email"
+                   class="form-control"
+                   id="email"
+                   placeholder="Email id">
+        </div>
+
+        <div class="form-group">
+            <label for="first-name">First Name</label>
+            <input ng-model="model.user.firstName"
+                   type="text"
+                   class="form-control"
+                   id="first-name"
+                   placeholder="First Name">
+        </div>
+
+        <div class="form-group">
+            <label for="last-name">Last Name</label>
+            <input ng-model="model.user.lastName"
+                   type="text"
+                   class="form-control"
+                   id="last-name"
+                   placeholder="Last Name">
+        </div>
+
+    </form>
+
+    <a class="btn btn-success btn-block"
+       ng-click="model.updateProfile(model.user)">Update Profile</a>
+
+    <a class="btn btn-primary btn-block"
+       href="#/user/{{model.userid}}/website">Websites</a>
+
+    <a class="btn btn-danger  btn-block"
+       href="#/login">Logout</a>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom sm-navbar">
+    <div class="container-fluid">
+        <div class="navbar-text pull-right">
+            <a href="#/user/{{model.userid}}">
+                <span class="glyphicon glyphicon-user sm-navbar-glyphicon"></span>
+            </a>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,64 @@
+<nav class="navbar navbar-default navbar-fixed-top sm-navbar">
+    <div class="container-fluid">
+        <div class="navbar-text pull-left">
+            <a href="#/user/{{model.userid}}/website">
+                <span class="glyphicon glyphicon-chevron-left sm-navbar-glyphicon"></span>
+            </a>
+        </div>
+
+        <div class="navbar-text pull-right">
+            <a href="#/user/{{model.userid}}/website/{{model.websiteid}}/page/new">
+                <span class="glyphicon glyphicon-plus sm-navbar-glyphicon"></span>
+            </a>
+        </div>
+
+        <div class="navbar-header">
+            <a class="navbar-brand sm-navbar-brand"
+               href="#/user/{{model.userid}}/website/{{model.websiteid}}/page">Pages</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid sm-list-list-group">
+    <ul class="list-group">
+
+        <li class="list-group-item sm-list-group-heading">
+            <div class="row">
+                <div class="col-xs-11 col-sm-6">
+                    Page Name
+                </div>
+                <div class="col-md-2 hidden-xs hidden-sm">
+                    Date Created
+                </div>
+            </div>
+        </li>
+
+        <li class="list-group-item"
+            ng-repeat="page in model.pages">
+            <div class="row">
+                <div class="col-xs-11 col-sm-6">
+                    <a href="#/user/{{model.userid}}/website/{{model.websiteid}}/page/{{page._id}}/widget">{{page.name}}</a>
+                </div>
+                <div class="col-md-2 hidden-xs hidden-sm">
+                    {{page.created | date}}
+                </div>
+                <div>
+                    <a class="pull-right"
+                       href="#/user/{{model.userid}}/website/{{model.websiteid}}/page/{{page._id}}">
+                        <span class="glyphicon glyphicon-cog sm-list-glyphicon"></span>
+                    </a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom sm-navbar">
+    <div class="container-fluid">
+        <div class="navbar-text pull-right">
+            <a href="#/user/{{model.userid}}">
+                <span class="glyphicon glyphicon-user sm-navbar-glyphicon"></span>
+            </a>
+        </div>
+    </div>
+</nav>

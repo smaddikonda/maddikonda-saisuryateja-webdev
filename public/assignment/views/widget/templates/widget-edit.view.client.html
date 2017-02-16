@@ -1,0 +1,60 @@
+<nav class="navbar navbar-default navbar-fixed-top sm-navbar">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <a href="#/user/{{model.userid}}/website/{{model.websiteid}}/page/{{model.pageid}}/widget"
+                   class="navbar-link navbar-text pull-left">
+                    <span class="glyphicon glyphicon-chevron-left sm-navbar-glyphicon"> </span>
+                </a>
+                <a class="navbar-brand sm-navbar-brand"
+                   href="#"
+                   ng-if="model.widgetType">
+                    New {{model.widgetType.toUpperCase()}}
+                </a>
+                <a class="navbar-brand sm-navbar-brand"
+                   href="#"
+                   ng-if="model.editWidgetVar">
+                    Edit {{model.widget.widgetType.toUpperCase()}}
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid sm-main-body">
+    <div class="row">
+        <div class="col-xs-12">
+            <div ng-if="model.widgetType">
+                <ng-include src="model.getWidgetEditURL(model.widgetType)"></ng-include>
+            </div>
+            <div ng-if="model.editWidgetVar">
+                <ng-include src="model.getWidgetEditURL(model.widget.widgetType)"></ng-include>
+            </div>
+
+            <a class="btn btn-primary  btn-block"
+               ng-if="model.widgetType"
+               ng-click="model.createNewWidget(model.widget)">
+                Create {{model.widgetType.toLowerCase()}}
+            </a>
+            <a class="btn btn-primary  btn-block"
+               ng-if="model.editWidgetVar"
+               ng-click="model.editWidget(model.widget)">
+                Edit {{model.widget.widgetType.toLowerCase()}}
+            </a>
+            <a class="btn btn-danger  btn-block"
+               ng-if="model.editWidgetVar"
+               ng-click="model.deleteWidget()">
+                Delete
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom sm-navbar">
+    <div class="container-fluid">
+        <a href="#/user/{{model.userid}}" class="navbar-link navbar-text pull-right">
+            <span class="glyphicon glyphicon-user sm-navbar-glyphicon"> </span>
+        </a>
+    </div>
+</nav>

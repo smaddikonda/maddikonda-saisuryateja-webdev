@@ -1,0 +1,91 @@
+<nav class="navbar navbar-default navbar-fixed-top sm-navbar">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 hidden-xs hidden-sm">
+                <a class="pull-left navbar-text"
+                   href="#/user/{{model.userid}}/website">
+                    <span class="glyphicon glyphicon-chevron-left sm-navbar-glyphicon"></span>
+                </a>
+                <a class="navbar-brand sm-navbar-brand"
+                   href="#/user/{{model.userid}}/website">Website List</a>
+                <a class="pull-right navbar-text"
+                   href="/user/{{model.userid}}/website/new">
+                    <span class="glyphicon glyphicon-plus sm-navbar-glyphicon"></span>
+                </a>
+            </div>
+
+            <div class="visible-xs visible-sm visible-md visible-lg col-md-8 col-xs-12">
+                <a class="pull-left navbar-text navbar-link hidden-md hidden-lg"
+                   href="#/user/{{model.userid}}/website">
+                    <span class="glyphicon glyphicon-chevron-left sm-navbar-glyphicon"></span>
+                </a>
+                <a class="navbar-brand sm-navbar-brand"
+                   href="#/user/{{model.userid}}/website/:wid">Edit Website</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="sm-main-body">
+    <div class="container-fluid col-md-4 hidden-xs hidden-sm">
+        <ul class="list-group">
+            <li class="list-group-item sm-list-group-heading">
+                <div>
+                    Websites
+                </div>
+            </li>
+            <li class="list-group-item"
+                ng-repeat="website in model.websites">
+                <a href="#/user/{{model.userid}}/website/{{website._id}}/page">{{website.name}}</a>
+                <a class="pull-right" href="#/user/{{model.userid}}/website/{{website._id}}">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container-fluid col-md-8 col-xs-12 visible-xs visible-sm visible-md visible-lg">
+
+        <div ng-show="model.error" class="alert alert-danger" role="alert">
+            {{model.error}}
+        </div>
+        <div ng-show="model.success" class="alert alert-success" role="alert">
+            {{model.success}}
+        </div>
+
+        <div class="sm-elements">
+            <label for="name">Name</label>
+            <input id="name"
+                   ng-model="model.currentWebsite.name"
+                   type="text"
+                   class="form-control"
+                   placeholder="Name"/>
+        </div>
+        <div class="sm-elements">
+            <label for="description">Description</label>
+            <textarea id="description"
+                      ng-model="model.currentWebsite.description"
+                      class="form-control sm-textarea"
+                      placeholder="Description"
+                      rows="5"></textarea>
+        </div>
+
+        <a class="btn btn-success btn-block"
+           ng-click="model.updateWebsite(model.currentWebsite)">Update</a>
+
+
+        <a class="btn btn-danger btn-block"
+           ng-click="model.deleteWebsite(model.currentWebsite)">Delete Website</a>
+
+    </div>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom sm-navbar">
+    <div class="container-fluid">
+        <div class="navbar-text pull-right">
+            <a href="#/user/{{model.userid}}">
+                <span class="glyphicon glyphicon-user sm-navbar-glyphicon"></span>
+            </a>
+        </div>
+    </div>
+</nav>
