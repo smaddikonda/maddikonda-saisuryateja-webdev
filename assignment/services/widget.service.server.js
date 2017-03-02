@@ -7,35 +7,10 @@ module.exports = function (app) {
     app.put("/api/widget/:widgetId", updateWidget);
     app.delete("/api/widget/:widgetId", deleteWidget);
 
+
     var multer = require('multer');
     var upload = multer({ dest: __dirname+'/../../public/uploads'});
-
     app.post("/api/upload", upload.single('imageFile'), uploadImage);
-
-    function uploadImage(req, res){
-        var widgetId      = req.body.widgetId;
-        var width         = req.body.width;
-        var myFile        = req.file;
-
-        var userId = req.body.userid;
-        var websiteId = req.body.websiteid;
-        var pageId = req.body.pageId;
-
-        var originalname  = myFile.originalname; // file name on user's computer
-        var filename      = myFile.filename;     // new file name in upload folder
-        var path          = myFile.path;         // full path of uploaded file
-        var destination   = myFile.destination;  // folder where file is saved to
-        var size          = myFile.size;
-        var mimetype      = myFile.mimetype;
-
-        widget = getWidgetById(widgetId);
-        widget.url = '/uploads/'+ filename;
-
-        var callbackUrl   = "/assignment/#/user/"+userId+"/website/"+websiteId+"/page/"+pageId+"/widget";
-
-        res.redirect(callbackUrl);
-
-    }
 
     var widgets = [
         { "_id": "123", "widgetType": "HEADER", "pageId": "321", "size": 2, "text": "GIZMODO","name":"heading text"},
@@ -50,11 +25,62 @@ module.exports = function (app) {
     ];
 
     var allWidgetTypes = ["HEADER","IMAGE","HTML","YOUTUBE"];
-    // added to dynamically load
-    // views for different widget
-    // if we use widgets above we will not be able to retrive
-    // all the widgetTypes if some widget type is deleted in
-    // any case.
+
+    function uploadImage(req, res) {
+
+        var widget = req.body;
+        var pageId = req.body.pageid;
+        widget.pageId = pageId;
+
+        if(widget.widgetId == "")
+        {
+            var widgetId = Math.floor(Date.now() / 1000);
+            if(req.file!=undefined)
+            {
+                var myFile = req.file;
+                var url = req.protocol + '://' +req.get('host')+"/uploads/"+myFile.filename;
+                widget.url = url;
+            }
+            else{
+                widget.url = req.body.url;
+            }
+            widget._id = widgetId;
+            widget.widgetType = "IMAGE";
+            widget.name = req.body.name;
+            widget.text = req.body.text;
+            widget.width =  req.body.width;
+
+            widgets.push(widget);
+        }
+        else
+        {
+            for (var w in widgets)
+            {
+                if(widgets[w]._id === widget.widgetId)
+                {
+                    widgets[w].width = widget.width;
+                    widgets[w].name = widget.name;
+                    widgets[w].text = widget.text;
+
+                    if(req.file!=undefined)
+                    {
+                        var myFile = req.file;
+                        var url = req.protocol + '://' +req.get('host')+"/uploads/"+myFile.filename;
+                        widgets[w].url = url;
+                    }
+                    else{
+                        widgets[w].url = widget.url;
+                    }
+                }
+            }
+
+            widget._id = widget.widgetId;
+        }
+        var callback = "/assignment/index.html#/user/" + req.body.userid + "/website/" + req.body.websiteid + "/page/" + req.body.pageid + "/widget/";
+
+        res.redirect(callback);
+    }
+
 
     function createWidget(req,res){
         var pageId = req.params.pageId;
@@ -74,6 +100,7 @@ module.exports = function (app) {
         widgets.push(widgetDetails);
         res.json(widgetDetails);
     }
+
     function findAllWidgetsForPage(req,res){
         var pageId = req.params.pageId;
         var allWidgets = [];
