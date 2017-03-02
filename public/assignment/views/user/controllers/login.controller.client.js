@@ -1,19 +1,27 @@
 (function () {
     angular
         .module("WebAppMaker")
-        .controller("loginController", loginController);
-    
-    function loginController(UserService, $location) {
+        .controller("LoginController", LoginController);
+
+    function LoginController(UserService,$location) {
         var viewModel = this;
+
+        //event handlers
         viewModel.login = login;
 
-        function login (user) {
-            var loginUser = UserService.findUserByCredentials(user.username, user.password);
-            if(loginUser != null) {
-                $location.url('/user/' + loginUser._id);
-            } else {
-                viewModel.error = 'user not found';
-            }
+        function login(user) {
+            var promise = UserService
+                .findUserByCredentials(user.username, user.password);
+            promise.then(function successCallback(response) {
+                    user = response.data;
+                    if(user!="") {
+                        $location.url("/user/" + user._id);
+                    } else {
+                        viewModel.error = "User not found";
+                    }},
+                function errorCallback(response) {
+                    viewModel.error = "User not found";
+                });
         }
     }
 })();

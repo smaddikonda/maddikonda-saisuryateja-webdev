@@ -1,7 +1,7 @@
 (function () {
     angular
         .module("WebAppMaker")
-        .controller("widgetEditController", widgetEditController)
+        .controller("EditWidgetController", WidgetEditController)
         .directive('stringToNumber', function() {
             return {
                 require: 'ngModel',
@@ -16,38 +16,47 @@
             };
         });
 
-    function widgetEditController(WidgetService, $routeParams, $location) {
+    function WidgetEditController(WidgetService,$sce,$routeParams,$location) {
         var viewModel = this;
+        var userId = $routeParams['uid'];
+        viewModel.userid = userId;
+        var websiteId = $routeParams['wid'];
+        viewModel.websiteid = websiteId;
+        var pageId = $routeParams['pid'];
+        viewModel.pageid = pageId;
+        var widgetId = $routeParams['wgid'];
+        viewModel.widgetId = widgetId;
 
-        viewModel.userid = $routeParams['uid'];
-        viewModel.websiteid = $routeParams['wid'];
-        viewModel.pageid = $routeParams['pid'];
-        viewModel.widgetid = $routeParams['wgid'];
-
+        //event handlers
         viewModel.getWidgetEditURL =  getWidgetEditURL;
         viewModel.editWidget = editWidget;
         viewModel.deleteWidget = deleteWidget;
         viewModel.createNewWidget = createNewWidget;
 
-        init();
-
         function init() {
-            var widgetidParts = viewModel.widgetid.split("-");
-            if(widgetidParts[0]=="create"){
-                viewModel.widgetType = widgetidParts[1];
+            var widgetIdParts = widgetId.split("-");
+            if(widgetIdParts[0]=="create"){
+                viewModel.widgetType = widgetIdParts[1];
             }
             else {
-                var widget = WidgetService.findWidgetById(viewModel.widgetid);
-                if (widget.widgetType == "IMAGE" || widget.widgetType == "YOUTUBE") {
-                    widget.width = getWidthValue(widget.width);
-                }
-                viewModel.widget = widget;
-                viewModel.editWidgetVar = true;
+                var promise = WidgetService.findWidgetById(widgetId);
+                promise.then(function successCallback(response) {
+                        var widget = response.data;
+                        if (widget.widgetType == "IMAGE" || widget.widgetType == "YOUTUBE") {
+                            widget.width = getWidthValue(widget.width);
+                        }
+                        viewModel.widget = widget;
+                        viewModel.editWidgetVar = true;
+                    },
+                    function errorCallback(response) {
+                        viewModel.error = "Error while loading Widget";
+                    });
             }
         }
+        init();
 
         function getWidgetEditURL(widgetType) {
-            var url = "views/widget/editors/widget-"+ widgetType + "-edit.view.client.html";
+            var url = "views/widget/editors/widget-"+widgetType+"-edit.view.client.html";
             return url;
         }
 
@@ -58,34 +67,50 @@
         }
 
         function editWidget(widgetDetails) {
-            var widgetDetails = WidgetService.updateWidget(widgetDetails._id,widgetDetails);
-            if(widgetDetails!= undefined) {
-                viewModel.successMessage = "Widget updated successfully";
-            } else {
-                viewModel.errorMessage = "Error while updating widget by ID:" + widgetid;
-            }
-            $location.url("/user/"+ viewModel.userid + "/website/" + viewModel.websiteid + "/page/" + viewModel.pageid + "/widget");
+            var promise =  WidgetService.updateWidget(widgetDetails._id,widgetDetails);
+            promise.then(function successCallback(response) {
+                    var widgetDetails = response.data;
+                    if(widgetDetails!= undefined) {
+                        $location.url("/user/"+userId+"/website/"+websiteId+"/page/"+pageId+"/widget");
+                    } else {
+                        viewModel.error = "Error while updating widget by ID:" + widgetId;
+                    }
+                },
+                function errorCallback(response) {
+                    viewModel.error = "Error while updating widget by ID:" + widgetId;
+                });
         }
 
         function deleteWidget() {
-            var deletedWidgetId = WidgetService.deleteWidget(viewModel.widgetid);
-            if(deletedWidgetId!= undefined) {
-                viewModel.successMessage = "Widget deleted successfully";
-            } else {
-                viewModel.errorMessage = "Error while deleting widget by ID:" + widgetid;
-            }
-            $location.url("/user/" + viewModel.userid + "/website/" + viewModel.websiteid + "/page/" + viewModel.pageid + "/widget");
+            var promise =  WidgetService.deleteWidget(widgetId);
+            promise.then(function successCallback(response) {
+                    var deletedWidgetId = response.data;
+                    if(deletedWidgetId!= undefined) {
+                        $location.url("/user/"+userId+"/website/"+websiteId+"/page/"+pageId+"/widget");
+                    } else {
+                        viewModel.error = "Error while deleting widget by ID:" + widgetId;
+                    }
+                },
+                function errorCallback(response) {
+                    viewModel.error = "Error while deleting widget by ID:" + widgetId;
+                });
+
         }
 
         function createNewWidget(widgetDetails) {
             widgetDetails.widgetType = viewModel.widgetType;
-            var widgetDetails = WidgetService.createWidget(viewModel.pageid, widgetDetails);
-            if (widgetDetails != undefined) {
-                viewModel.successMessage = "Widget created successfully";
-            } else {
-                viewModel.errorMessage = "Error while creating widget";
-            }
-            $location.url("/user/" + viewModel.userid + "/website/" + viewModel.websiteid + "/page/" + viewModel.pageid + "/widget");
+            var promise =  WidgetService.createWidget(pageId,widgetDetails);
+            promise.then(function successCallback(response) {
+                    var widgetDetails = response.data;
+                    if(widgetDetails!= undefined) {
+                        $location.url("/user/"+userId+"/website/"+websiteId+"/page/"+pageId+"/widget");
+                    } else {
+                        viewModel.error = "Error while creating widget";
+                    }
+                },
+                function errorCallback(response) {
+                    viewModel.error = "Error while creating widget";
+                });
         }
     }
 })();

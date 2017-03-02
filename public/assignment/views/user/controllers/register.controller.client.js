@@ -1,21 +1,30 @@
-(function (){
+/**
+ * Created by sreematta on 2/9/2017.
+ */
+(function () {
     angular
         .module("WebAppMaker")
-        .controller("registerController", registerController);
+        .controller("RegisterController", RegisterController);
 
-    function registerController(UserService, $location) {
-
+    function RegisterController(UserService,$location) {
         var viewModel = this;
 
+        //event handlers
         viewModel.register = register;
 
         function register(user) {
-            if(user.repassword == user.password) {
-                var newUser = UserService.createUser(user);
-                $location.url('/user/' + newUser._id);
-            } else {
-                viewModel.error = "Re-entered password does not match. Please check."
-            }
+            var promise = UserService.createUser(user);
+            promise.then(function successCallback(response) {
+                    user = response.data;
+                    if(user) {
+                        $location.url("/user/"+user._id);
+                    } else {
+                        viewModel.error = "User not created";
+                    }
+                },
+                function errorCallback(response) {
+                    viewModel.error = "User not created";
+                });
         }
     }
 })();

@@ -1,17 +1,34 @@
 (function () {
     angular
         .module("WebAppMaker")
-        .controller("pageListController", pageListController);
+        .controller("PageListController", PageListController);
 
-    function pageListController(PageService, $location, $routeParams) {
+    function PageListController(PageService,$routeParams) {
         var viewModel = this;
-        viewModel.userid = $routeParams['uid'];
-        viewModel.websiteid = $routeParams['wid'];
+        var userId = $routeParams['uid'];
+        var websiteId = $routeParams['wid'];
 
-        init();
+        viewModel.userid = userId;
+        viewModel.websiteid = websiteId;
+
+        //event handlers
+        //no event handlers here
 
         function init() {
-            viewModel.pages = PageService.findPageByWebsiteById(viewModel.websiteid);
+            var promise = PageService.findPageByWebsiteId(websiteId);
+            promise.then(function successCallback(response) {
+                    var pages = response.data;
+                    if(pages!= undefined) {
+                        viewModel.pages = pages;
+                    } else {
+                        viewModel.error = "Error while loading pages for website ID:" + websiteId;
+                    }
+                },
+                function errorCallback(response) {
+                    viewModel.error = "Error while loading pages for website ID:" + websiteId;
+                });
         }
+        init();
+
     }
 })();

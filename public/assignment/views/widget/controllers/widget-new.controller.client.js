@@ -1,18 +1,33 @@
 (function () {
     angular
         .module("WebAppMaker")
-        .controller("widgetNewController", widgetNewController);
+        .controller("NewWidgetController", WidgetNewController);
 
-    function widgetNewController(WidgetService, $routeParams) {
+    function WidgetNewController(WidgetService,$sce,$routeParams) {
         var viewModel = this;
-        viewModel.userid = $routeParams['uid'];
-        viewModel.websiteid = $routeParams['wid'];
-        viewModel.pageid = $routeParams['pid'];
-
-        init();
+        var userId = $routeParams['uid'];
+        viewModel.userid = userId;
+        var websiteId = $routeParams['wid'];
+        viewModel.websiteid = websiteId;
+        var pageId = $routeParams['pid'];
+        viewModel.pageid = pageId;
 
         function init() {
-            viewModel.allWidgetTypes = WidgetService.findAllWidgets(viewModel.pageid);
+            var promise =  WidgetService.findAllWidgets(pageId);
+            promise.then(function successCallback(response) {
+                    var allWidgetTypes = response.data;
+                    if(allWidgetTypes!= undefined) {
+                        viewModel.allWidgetTypes = allWidgetTypes;
+                    } else {
+                        viewModel.error = "Error while loading Widget Types";
+                    }
+                },
+                function errorCallback(response) {
+                    viewModel.error = "Error while loading Widget Types";
+                });
+
         }
+        init();
+
     }
 })();

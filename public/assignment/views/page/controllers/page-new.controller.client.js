@@ -1,30 +1,53 @@
 (function () {
     angular
         .module("WebAppMaker")
-        .controller("pageNewController", pageNewController);
+        .controller("NewPageController", NewPageController);
 
-    function pageNewController(PageService, $routeParams, $location) {
+    function NewPageController(PageService,$routeParams,$location) {
         var viewModel = this;
-        viewModel.userid = $routeParams['uid'];
-        viewModel.websiteid = $routeParams['wid'];
 
-        init();
+        var userId = $routeParams['uid'];
+        var websiteId = $routeParams['wid'];
+
+        viewModel.userid = userId;
+        viewModel.websiteid = websiteId;
+
+        //Event Handlers
+        viewModel.createPage = createPage;
+
 
         function init() {
-            viewModel.pages = PageService.findPageByWebsiteById(viewModel.websiteid);
+            var promise = PageService.findPageByWebsiteId(websiteId);
+            promise.then(function successCallback(response) {
+                    var pages = response.data;
+                    if(pages!= undefined) {
+                        viewModel.pages = pages;
+                    } else {
+                        viewModel.error = "Error while loading pages for website ID:" + websiteId;
+                    }
+                },
+                function errorCallback(response) {
+                    viewModel.error = "Error while loading pages for website ID:" + websiteId;
+                });
+        }
+        init();
+
+
+        function createPage(newPageDetails) {
+            var promise = PageService.createPage(websiteId,newPageDetails);
+            promise.then(function successCallback(response) {
+                    var created = response.data;
+                    if(created!= undefined) {
+                        $location.url("/user/"+userId+"/website/"+websiteId+"/page");
+
+                    } else {
+                        viewModel.error = "Error while creating the page for the website with ID:" + websiteId;
+                    }
+                },
+                function errorCallback(response) {
+                    viewModel.error = "Error while creating the page for the website with ID:" + websiteId;
+                });
         }
 
-        viewModel.createPage = createPage;
-        
-        function createPage(page) {
-            var newPage = PageService.createPage(viewModel.websiteid, page);
-            if(newPage != null) {
-                viewModel.success = "New page: " + newPage.name + " created successfully.";
-                viewModel.pages = PageService.findPageByWebsiteById(viewModel.websiteid);
-                $location.url('/user/' + viewModel.userid + '/website/' + viewModel.websiteid + '/page');
-            } else {
-                viewModel.error = "Error occurred while creating new website. Please retry.";
-            }
-        }
     }
 })();

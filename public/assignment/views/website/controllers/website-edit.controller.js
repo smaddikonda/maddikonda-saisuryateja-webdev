@@ -1,49 +1,80 @@
-(function (){
+(function () {
     angular
         .module("WebAppMaker")
-        .controller("websiteEditController", websiteEditController);
+        .controller("EditWebsiteController", EditWebsiteController);
 
-    function websiteEditController(WebsiteService, $routeParams, $location) {
+    function EditWebsiteController(WebsiteService,$routeParams,$location) {
         var viewModel = this;
+        var userId = $routeParams['uid'];
+        viewModel.userid = userId;
+        var websiteId = $routeParams['wid'];
+        viewModel.websiteId = websiteId;
 
-        viewModel.userid = $routeParams['uid'];
-        viewModel.websiteid = $routeParams['wid'];
-
+        //event handlers
         viewModel.updateWebsite = updateWebsite;
         viewModel.deleteWebsite = deleteWebsite;
 
-        //Call the constructor init() to initialize the values of websites developed by the current user,
-        // and the website id of the current website being edited.
+        function init() {
+            var promise = WebsiteService.findWebsitesByUser(userId);
+            promise.then(function successCallback(response) {
+                    var websites = response.data;
+                    if(websites!= undefined) {
+                        viewModel.websites = websites;
+                    } else {
+                        viewModel.error = "Error while loading websites for user ID:" + userId;
+                    }
+
+                },
+                function errorCallback(response) {
+                    viewModel.error = "Error while loading websites for user ID:" + userId;
+                });
+
+
+            var promiseCurrentWebsite = WebsiteService.findWebsiteById(websiteId);
+            promiseCurrentWebsite.then(function successCallback(response) {
+                    var currentWebsite = response.data;
+                    if(currentWebsite!= undefined) {
+                        viewModel.currentWebsite = currentWebsite; //current website to edit
+                    } else {
+                        viewModel.error = "Error while loading website";
+                    }
+
+                },
+                function errorCallback(response) {
+                    viewModel.error = "Error while loading website";
+                });
+        }
         init();
 
-        function init() {
-            var websites = WebsiteService.findWebsitesByUser(viewModel.userid);
-            viewModel.websites = angular.copy(websites);
-            var currentWebsite = WebsiteService.findWebsiteById(viewModel.websiteid);
-            viewModel.currentWebsite = angular.copy(currentWebsite);
+        function updateWebsite(websiteDetails) {
+            var promise = WebsiteService.updateWebsite(websiteId,websiteDetails);
+            promise.then(function successCallback(response) {
+                    var websiteDetails = response.data;
+                    if(websiteDetails!= undefined) {
+                        $location.url("/user/"+userId+"/website");
+                    } else {
+                        viewModel.error = "Error while updating website by ID:" + websiteId;
+                    }
+                },
+                function errorCallback(response) {
+                    viewModel.error = "Error while updating website by ID:" + websiteId;
+                });
+
         }
 
-        function updateWebsite(website) {
-            var updatedWebsite = WebsiteService.updateWebsite(viewModel.websiteid, website);
-            if(updatedWebsite != undefined || updatedWebsite != null) {
-                viewModel.success = "Website: " + updatedWebsite.name + " updated successfully.";
-                viewModel.websites = WebsiteService.findWebsitesByUser(viewModel.userid);
-                $location.url('/user/' + viewModel.userid + '/website');
-            } else {
-                viewModel.error = "Failed to update. Please retry."
-            }
-        }
-
-        function deleteWebsite(website) {
-            WebsiteService.deleteWebsite(website._id);
-            var deletedWebsite = WebsiteService.findWebsiteById(website._id);
-            if (deletedWebsite == undefined || deletedWebsite == null) {
-                viewModel.success = "Website: " + website.name + " deleted successfully.";
-                viewModel.websites = WebsiteService.findWebsitesByUser(viewModel.userid);
-                $location.url('/user/' + viewModel.userid + '/website');
-            } else {
-                viewModel.error = "Website deletion failed. Please retry."
-            }
+        function deleteWebsite() {
+            var promise = WebsiteService.deleteWebsite(websiteId);
+            promise.then(function successCallback(response) {
+                    var deleteWebsiteId = response.data;
+                    if(deleteWebsiteId!= undefined) {
+                        $location.url("/user/"+userId+"/website");
+                    } else {
+                        viewModel.error = "Error while deleting website by ID:" + websiteId;
+                    }
+                },
+                function errorCallback(response) {
+                    viewModel.error = "Error while deleting website by ID:" + websiteId;
+                });
         }
     }
 })();
