@@ -49,11 +49,16 @@
     <input  name="websiteid" value="{{model.websiteid}}" style="display: none"/>
     <input  name="widgetId" value="{{model.widget._id}}"   style="display: none"/>
 
+    <div><a class="btn btn-primary btn-info"
+            ng-click="model.flickrSearch()">
+        Search Flickr Image
+    </a></div>
+
     <button type="submit" ng-if="model.widgetType" class="btn btn-block btn-primary">
         Upload Image
     </button>
 
-    <button type="submit"  ng-if="model.editWidgetVar" class="btn btn-block btn-primary">
+    <button type="submit" ng-if="model.editWidgetVar" class="btn btn-block btn-primary">
         Edit Image
     </button>
 

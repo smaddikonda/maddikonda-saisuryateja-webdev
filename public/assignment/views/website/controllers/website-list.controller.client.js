@@ -13,6 +13,7 @@
 
         function init() {
             var promise = WebsiteService.findWebsitesByUser(userId);
+
             promise.then(function successCallback(response) {
                     var websites = response.data;
                     if(websites!= undefined) {

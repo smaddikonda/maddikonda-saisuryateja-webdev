@@ -1,4 +1,4 @@
-module.exports = function (app) {
+module.exports = function (app, UserModel) {
 
     app.post("/api/user", createUser);
     app.get("/api/user", findUser);
@@ -14,19 +14,15 @@ module.exports = function (app) {
     ];
 
     function createUser(req, res) {
-        var user = req.body;
-        var userId = Math.floor(Date.now() / 1000);
-        var userDetails =
-            {   "_id":userId,
-                "username":user.username,
-                "password":user.password,
-                "firstName":user.firstName,
-                "lastName":user.lastName,
-                "email":user.email
-            };
-
-        users.push(userDetails); // added a new user at the end of the array
-        res.json(userDetails);
+        var newUser = req.body;
+        UserModel.createUser(newUser)
+            .then(
+                function (user) {
+                    res.json(user);
+                },
+                function (err) {
+                    res.sendStatus(500).send(err);
+                });
     }
 
     function updateUser(req, res) {

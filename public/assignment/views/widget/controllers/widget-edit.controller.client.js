@@ -32,6 +32,7 @@
         viewModel.editWidget = editWidget;
         viewModel.deleteWidget = deleteWidget;
         viewModel.createNewWidget = createNewWidget;
+        viewModel.flickrSearch = flickrSearch;
 
         function init() {
             var widgetIdParts = widgetId.split("-");
@@ -54,6 +55,10 @@
             }
         }
         init();
+
+        function flickrSearch() {
+            $location.url("/user/"+ viewModel.userid +"/website/"+ viewModel.websiteid + "/page/"+ viewModel.pageid + "/widget/" + viewModel.widgetId + "/search");
+        }
 
         function getWidgetEditURL(widgetType) {
             var url = "views/widget/editors/widget-"+widgetType+"-edit.view.client.html";
