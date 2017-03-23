@@ -1,7 +1,7 @@
 (function () {
     angular
         .module("WebAppMaker")
-        .controller("EditWidgetController", WidgetEditController)
+        .controller("WidgetEditController", WidgetEditController)
         .directive('stringToNumber', function() {
             return {
                 require: 'ngModel',
@@ -19,11 +19,11 @@
     function WidgetEditController(WidgetService,$sce,$routeParams,$location) {
         var viewModel = this;
         var userId = $routeParams['uid'];
-        viewModel.userid = userId;
+        viewModel.userId = userId;
         var websiteId = $routeParams['wid'];
-        viewModel.websiteid = websiteId;
+        viewModel.websiteId = websiteId;
         var pageId = $routeParams['pid'];
-        viewModel.pageid = pageId;
+        viewModel.pageId = pageId;
         var widgetId = $routeParams['wgid'];
         viewModel.widgetId = widgetId;
 
@@ -32,36 +32,31 @@
         viewModel.editWidget = editWidget;
         viewModel.deleteWidget = deleteWidget;
         viewModel.createNewWidget = createNewWidget;
-        viewModel.flickrSearch = flickrSearch;
 
         function init() {
             var widgetIdParts = widgetId.split("-");
             if(widgetIdParts[0]=="create"){
-                viewModel.widgetType = widgetIdParts[1];
+                viewModel.type = widgetIdParts[1];
             }
             else {
                 var promise = WidgetService.findWidgetById(widgetId);
                 promise.then(function successCallback(response) {
                         var widget = response.data;
-                        if (widget.widgetType == "IMAGE" || widget.widgetType == "YOUTUBE") {
+                        if (widget.type == "IMAGE" || widget.type == "YOUTUBE") {
                             widget.width = getWidthValue(widget.width);
                         }
                         viewModel.widget = widget;
                         viewModel.editWidgetVar = true;
                     },
                     function errorCallback(response) {
-                        viewModel.error = "Error while loading Widget";
+                        viewModel.errorMessage = "Error while loading Widget";
                     });
             }
         }
         init();
 
-        function flickrSearch() {
-            $location.url("/user/"+ viewModel.userid +"/website/"+ viewModel.websiteid + "/page/"+ viewModel.pageid + "/widget/" + viewModel.widgetId + "/search");
-        }
-
-        function getWidgetEditURL(widgetType) {
-            var url = "views/widget/editors/widget-"+widgetType+"-edit.view.client.html";
+        function getWidgetEditURL(type) {
+            var url = "views/widget/editors/widget-"+type+"-edit.view.client.html";
             return url;
         }
 
@@ -78,11 +73,11 @@
                     if(widgetDetails!= undefined) {
                         $location.url("/user/"+userId+"/website/"+websiteId+"/page/"+pageId+"/widget");
                     } else {
-                        viewModel.error = "Error while updating widget by ID:" + widgetId;
+                        viewModel.errorMessage = "Error while updating widget by ID:" + widgetId;
                     }
                 },
                 function errorCallback(response) {
-                    viewModel.error = "Error while updating widget by ID:" + widgetId;
+                    viewModel.errorMessage = "Error while updating widget by ID:" + widgetId;
                 });
         }
 
@@ -93,28 +88,46 @@
                     if(deletedWidgetId!= undefined) {
                         $location.url("/user/"+userId+"/website/"+websiteId+"/page/"+pageId+"/widget");
                     } else {
-                        viewModel.error = "Error while deleting widget by ID:" + widgetId;
+                        viewModel.errorMessage = "Error while deleting widget by ID:" + widgetId;
                     }
                 },
                 function errorCallback(response) {
-                    viewModel.error = "Error while deleting widget by ID:" + widgetId;
+                    viewModel.errorMessage = "Error while deleting widget by ID:" + widgetId;
                 });
 
         }
 
         function createNewWidget(widgetDetails) {
-            widgetDetails.widgetType = viewModel.widgetType;
+            widgetDetails.type = viewModel.type;
             var promise =  WidgetService.createWidget(pageId,widgetDetails);
             promise.then(function successCallback(response) {
                     var widgetDetails = response.data;
                     if(widgetDetails!= undefined) {
                         $location.url("/user/"+userId+"/website/"+websiteId+"/page/"+pageId+"/widget");
                     } else {
-                        viewModel.error = "Error while creating widget";
+                        viewModel.errorMessage = "Error while creating widget";
                     }
                 },
                 function errorCallback(response) {
-                    viewModel.error = "Error while creating widget";
+                    viewModel.errorMessage = "Error while creating widget";
+                });
+        }
+
+        function uploadWidget(widgetDetails) {
+            if(widgetDetails._id== undefined){
+                var widgetId = Math.floor(Date.now() / 1000);
+            }
+            var promise =  WidgetService.uploadWidget(widgetId,widgetDetails);
+            promise.then(function successCallback(response) {
+                    var widgetDetails = response.data;
+                    if(widgetDetails!= undefined) {
+                        $location.url("/user/"+userId+"/website/"+websiteId+"/page/"+pageId+"/widget");
+                    } else {
+                        viewModel.errorMessage = "Error while uploading widget by ID:" + widgetId;
+                    }
+                },
+                function errorCallback(response) {
+                    viewModel.errorMessage = "Error while uploading widget by ID:" + widgetId;
                 });
         }
     }

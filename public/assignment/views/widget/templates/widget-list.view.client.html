@@ -1,55 +1,58 @@
 <nav class="navbar navbar-default navbar-fixed-top sm-navbar">
     <div class="container-fluid">
-        <div class="navbar-text pull-left">
-            <a href="#/user/{{model.userid}}/website/{{model.websiteid}}/page">
-                <span class="glyphicon glyphicon-chevron-left sm-navbar-glyphicon"></span>
-            </a>
-        </div>
+        <div class="row">
 
-        <div class="navbar-text pull-right">
-            <a href="#/user/{{model.userid}}/website/{{model.websiteid}}/page/{{model.pageid}}/widget/new">
-                <span class="glyphicon glyphicon-plus sm-navbar-glyphicon"></span>
+            <div class="col-xs-9">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page" class="navbar-link navbar-text pull-left">
+                    <span class="glyphicon glyphicon-chevron-left sm-navbar-glyphicon"> </span>
+                </a><a class="navbar-brand sm-navbar-brand" href="#">
+                Widgets
             </a>
-        </div>
+            </div>
 
-        <div class="navbar-header">
-            <a class="navbar-brand sm-navbar-brand" href="#/user/{{model.userid}}/website/{{model.websiteid}}/page/{{model.pageid}}/widget">Widgets</a>
+            <div class="col-xs-3">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/new" class="navbar-link navbar-text pull-right">
+                    <span class="glyphicon glyphicon-plus sm-navbar-glyphicon"> </span>
+                </a>
+            </div>
         </div>
     </div>
 </nav>
 
+
 <div class="container-fluid sm-list-list-group sm-widget-list-page">
-    <ul wbdv-sortable class="list-group">
+    <ul wbdv-sortable pageid="{{model.pageId}}" class="list-group">
+        <li ng-repeat="widget in model.widgets" class="list-group-item msk-website-row">
 
-        <li ng-repeat="widget in model.widgets" class="list-group-item">
+            <ng-include src="model.getWidgetURL(widget.type)"></ng-include>
 
-            <ng-include src="model.getWidgetURL(widget.widgetType)"></ng-include>
+            <div class="sm-widget-glyphicons pull-right">
 
-            <div class="pull-right sm-widget-glyphicons">
-                <a href="#/user/{{model.userid}}/website/{{model.websiteid}}/page/{{model.pageid}}/widget/{{widget._id}}">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/{{widget._id}}">
                     <span class="glyphicon glyphicon-cog"></span>
                 </a>
                 <a href="">
-                    <span class="glyphicon glyphicon-align-justify"></span>
+                    <span class="glyphicon glyphicon-align-justify"> </span>
                 </a>
             </div>
         </li>
-
     </ul>
 </div>
 
+
 <nav class="navbar navbar-default navbar-fixed-bottom sm-navbar">
     <div class="container-fluid">
-        <div class="navbar-text pull-left">
-            <span class="glyphicon glyphicon-play sm-navbar-glyphicon"></span>
-        </div>
-        <div class="navbar-text pull-left">
-            <span class="glyphicon glyphicon-eye-open sm-navbar-glyphicon"></span>
-        </div>
-        <div class="navbar-text pull-right">
-            <a href="#/user/{{model.userid}}">
-                <span class="glyphicon glyphicon-user sm-navbar-glyphicon"></span>
-            </a>
-        </div>
+
+        <a href="#" class="navbar-link navbar-text pull-left">
+            <span class="glyphicon glyphicon-play sm-navbar-glyphicon"> </span>
+        </a>
+
+        <a href="#" class="navbar-link navbar-text pull-left">
+            <span class="glyphicon glyphicon-eye-open sm-navbar-glyphicon"> </span>
+        </a>
+
+        <a href="#/user/{{model.userId}}" class="navbar-link navbar-text pull-right">
+            <span class="glyphicon glyphicon-user sm-navbar-glyphicon"> </span>
+        </a>
     </div>
 </nav>

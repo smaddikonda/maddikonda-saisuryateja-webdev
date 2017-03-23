@@ -6,11 +6,11 @@
     function WidgetListController(WidgetService,$sce,$routeParams) {
         var viewModel = this;
         var userId = $routeParams['uid'];
-        viewModel.userid = userId;
+        viewModel.userId = userId;
         var websiteId = $routeParams['wid'];
-        viewModel.websiteid = websiteId;
+        viewModel.websiteId = websiteId;
         var pageId = $routeParams['pid'];
-        viewModel.pageid = pageId;
+        viewModel.pageId = pageId;
 
         //event handlers
         viewModel.getVideoURL =  getVideoURL;
@@ -24,13 +24,12 @@
                     if(widgets!= undefined) {
                         viewModel.widgets = widgets;
                     } else {
-                        viewModel.error = "Error while loading Widgets for Page ID:" + pageId;
+                        viewModel.errorMessage = "Error while loading Widgets for Page ID:" + pageId;
                     }
                 },
                 function errorCallback(response) {
-                    viewModel.error = "Error while loading Widgets for Page ID:" + pageId;
+                    viewModel.errorMessage = "Error while loading Widgets for Page ID:" + pageId;
                 });
-
         }
         init();
 
@@ -46,8 +45,8 @@
             return $sce.trustAsHtml(html);
         }
 
-        function getWidgetURL(widgetType) {
-            var url = 'views/widget/templates/widget-'+widgetType+'.view.client.html';
+        function getWidgetURL(type) {
+            var url = 'views/widget/templates/widget-'+type+'.view.client.html';
             return url;
         }
     }

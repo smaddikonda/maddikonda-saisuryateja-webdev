@@ -8,14 +8,13 @@ module.exports = function() {
         UserModel : userModel,
         WebsiteModel : websiteModel,
         PageModel : pageModel,
-        WidgetModel : wodgetModel
+        WidgetModel : widgetModel
     };
 
-
-   /* UserModel.setModel(model);
-    WebsiteModel.setModel(model);
-    PageModel.setModel(model);
-    WidgetModel.setModel(model);*/
+    userModel.setModel(model);
+    websiteModel.setModel(model);
+    pageModel.setModel(model);
+    widgetModel.setModel(model);
 
     return model;
 };

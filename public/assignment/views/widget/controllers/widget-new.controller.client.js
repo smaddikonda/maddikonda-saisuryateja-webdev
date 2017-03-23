@@ -1,7 +1,7 @@
 (function () {
     angular
         .module("WebAppMaker")
-        .controller("NewWidgetController", WidgetNewController);
+        .controller("WidgetNewController", WidgetNewController);
 
     function WidgetNewController(WidgetService,$sce,$routeParams) {
         var viewModel = this;
