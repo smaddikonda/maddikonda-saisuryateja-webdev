@@ -16,13 +16,19 @@
 </nav>
 
 <div class="sm-main-body">
-    <div class="input-group">
-        <input placeholder="Search Flickr Images" ng-model="searchText" type="text" class="form-control">
+    <div class="input-group sm-widget-list-page">
+        <input placeholder="Search Flickr Images"
+               ng-model="searchText"
+               type="text"
+               class="form-control">
+
         <span class="input-group-btn">
-        <a ng-click="model.searchPhotos(searchText)" class="btn btn-default" type="button">
-            <span class="glyphicon glyphicon-search"></span>
-        </a>
-    </span>
+            <a ng-click="model.searchPhotos(searchText)"
+               class="btn btn-default"
+               type="button">
+                <span class="glyphicon glyphicon-search"></span>
+            </a>
+        </span>
     </div>
 
     <div class="row">

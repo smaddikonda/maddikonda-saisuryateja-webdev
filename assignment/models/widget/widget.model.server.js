@@ -1,4 +1,6 @@
 module.exports = function () {
+
+    var model = null;
     var api={
         createWidget : createWidget,
         findWidgetById:findWidgetById,
@@ -8,7 +10,7 @@ module.exports = function () {
         deleteWidget:deleteWidget,
         deleteWidgets:deleteWidgets,
         updateWidgetOrder:updateWidgetOrder,
-        setModel:setModel
+        setModel: setModel
     };
 
     var mongoose = require('mongoose');
@@ -17,8 +19,9 @@ module.exports = function () {
 
     var WidgetSchema = require('./widget.schema.server')();
     var WidgetModel = mongoose.model('WidgetModel',WidgetSchema);
-    var model = null;
+
     return api;
+
 
     function setModel(models) {
         model = models;
@@ -62,17 +65,29 @@ module.exports = function () {
         return deferred.promise;
     }
 
-    function findWidgetsByPageId(pageId) {
-        var deferred = q.defer();
-        WidgetModel
-            .find({_page:pageId}, function (err, widgetsByPageId) {
-                if(err) {
-                    deferred.reject(err);
-                } else {
-                    deferred.resolve(widgetsByPageId);
-                }
+    function findWidgetsByPageId(pid) {
+
+        return model.PageModel
+            .findPageById(pid)
+            .then(function (page) {
+                var widgets = page.widgets;
+                var n = widgets.length;
+                var _widgets = [];
+
+                return getWidgets(n, widgets, _widgets);
             });
-        return deferred.promise;
+    }
+
+    function getWidgets(n, widgets, _widgets) {
+        if(n == 0){
+            return _widgets;
+        }
+
+        return WidgetModel.findById(widgets.shift()).select('-__v')
+            .then(function (widget) {
+                _widgets.push(widget);
+                return getWidgets(--n, widgets, _widgets);
+            });
     }
 
 
@@ -114,5 +129,4 @@ module.exports = function () {
                 return err;
             });
     }
-
 };

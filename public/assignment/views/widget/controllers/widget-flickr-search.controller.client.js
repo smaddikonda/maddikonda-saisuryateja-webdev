@@ -5,19 +5,18 @@
 
     function FlickrImageSearchController($routeParams, $location, WidgetService, FlickrService) {
         var viewModel = this;
-        viewModel.userId = $routeParams['uid'];
-        viewModel.websiteId = $routeParams['wid'];
-        viewModel.pageId = $routeParams['pid'];
-        viewModel.widgetId = $routeParams['wgid'];
+        var userId = $routeParams['uid'];
+        viewModel.userId = userId;
+        var websiteId = $routeParams['wid'];
+        viewModel.websiteId = websiteId;
+        var pageId = $routeParams['pid'];
+        viewModel.pageId = pageId;
+        var widgetId = $routeParams['wgid'];
+        viewModel.widgetId = widgetId;
 
         viewModel.searchPhotos = searchPhotos;
         viewModel.selectPhoto = selectPhoto;
 
-        init();
-
-        function init() {
-            console.log("Got into Flickr controller");
-        }
 
         function searchPhotos(searchString) {
             FlickrService
@@ -40,11 +39,18 @@
                 widgetType: 'IMAGE'
             };
 
-            WidgetService
-                .updateWidget(viewModel.widgetId, newPhoto)
-                .success(function(image){
-                    $location.url("/user/"+ viewModel.userId +"/website/"+ viewModel.websiteId + "/page/"+ viewModel.pageId + "/widget/" + viewModel.widgetId);
-                });
+            if(widgetId!="create-IMAGE"){
+                WidgetService
+                    .updateWidget(viewModel.widgetId, newPhoto)
+                    .then(function(image){
+                        $location.url("/user/"+ viewModel.userId +"/website/"+ viewModel.websiteId + "/page/"+ viewModel.pageId + "/widget/" + viewModel.widgetId);
+                    });
+            }
+            else{
+                $location.url("/user/"+ viewModel.userId +"/website/"+ viewModel.websiteId + "/page/"+ viewModel.pageId + "/widget/create-IMAGE-"
+                    +photo.farm+"-"+photo.server+"-"+photo.id+"-"+photo.secret);
+            }
+
         }
     }
 })();
