@@ -3,21 +3,13 @@
         .module("WebAppMaker")
         .controller("LoginController", LoginController);
 
-    function LoginController(UserService,$location, $rootScope) {
+    function LoginController(UserService,$location) {
         var viewModel = this;
 
         //event handlers
         viewModel.login = login;
 
         function login(user) {
-
-            UserService.login(user)
-                .then(function (response) {
-                    var user = response.data;
-                    $rootScope.currentUser = user;
-                    $location.url("/user/"+ user._id);
-                });
-
             var promise = UserService
                 .findUserByCredentials(user.username, user.password);
             promise.then(function successCallback(response) {

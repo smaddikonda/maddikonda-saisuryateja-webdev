@@ -6,47 +6,6 @@ module.exports = function (app,userModel) {
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
 
-    var passport = require('passport');
-    var LocalStrategy = require('passport-local').Strategy;
-    passport.serializeUser(serializeUser);
-    passport.deserializeUser(deserializeUser);
-
-    passport.use(new LocalStrategy(localStrategy));
-
-    function localStrategy(username, password, done) {
-        userModel.
-        findUserByCredentials(username, password)
-            .then(
-                function (user) {
-                    if(user.username === username && user.password === password) {
-                        return done(null, user);
-                    } else {
-                        return done(null, false);
-                    }
-                },
-                function(err) {
-                    if (err) {return done(err);}
-                }
-            );
-    }
-
-    function serializeUser(user, done) {
-        done(null, user);
-    }
-
-    function deserializeUser(user, done) {
-        developerModel
-            .findDeveloperById(user._id)
-            .then(
-                function(user){
-                    done(null, user);
-                },
-                function(err){
-                    done(err, null);
-                }
-            );
-    }
-
     var users = [
         {"_id": "123", "username": "alice",    "password": "alice",    "firstName": "Alice",  "lastName": "Wonder","email": "alice@gmail.com" },
         {"_id": "234", "username": "bob",      "password": "bob",      "firstName": "Bob",    "lastName": "Marley","email": "bob@gmail.com"  },

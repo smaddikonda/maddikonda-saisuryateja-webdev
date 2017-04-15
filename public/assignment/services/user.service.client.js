@@ -10,14 +10,9 @@
             "updateUser": updateUser,
             "findUserByUsername": findUserByUsername,
             "createUser": createUser,
-            "deleteUser": deleteUser,
-            "login" : login
+            "deleteUser": deleteUser
         };
         return api;
-
-        function login(user) {
-            return $http.post("/api/login", user);
-        }
 
         function createUser(newUser) {
             return $http.post("/api/user", newUser);
