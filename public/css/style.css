@@ -1,5 +1,5 @@
 .section{
-    background-size: cover;
+    background-size: cover !important;
     padding: 0px !important;
 }
 
@@ -26,43 +26,25 @@
 }
 
 #section-1 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)),
+    url("../assets/pexels-photo-360591.jpeg");
     font-family: 'Open Sans', sans-serif;
-
-    /* Safari 5.1+, Chrome 10+ */
-    background: -webkit-radial-gradient(circle, #5e5e5e, #2F2727);
-
-    /* Firefox 3.6+ */
-    background: -moz-radial-gradient(circle, #5e5e5e, #2F2727);
-
-    /* IE 10 */
-    background: -ms-radial-gradient(circle, #5e5e5e, #2F2727);
-
+    padding: 6% 0 0 0;
 }
 
 #section-2 {
-
     font-family: 'Open Sans', sans-serif;
-    /* Safari 5.1+, Chrome 10+ */
-    background: -webkit-radial-gradient(circle, #5e5e5e, #2F2727);
-
-    /* Firefox 3.6+ */
-    background: -moz-radial-gradient(circle, #5e5e5e, #2F2727);
-
-    /* IE 10 */
-    background: -ms-radial-gradient(circle, #5e5e5e, #2F2727);
-
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
+    url("../assets/cup-of-coffee-laptop-office-macbook-89786.jpeg");
+    padding: 6% 0 0 0;
 }
 
 #section-3{
     font-family: 'Open Sans', sans-serif;
-    /* Safari 5.1+, Chrome 10+ */
-    background: -webkit-radial-gradient(circle, #5e5e5e, #2F2727);
-
-    /* Firefox 3.6+ */
-    background: -moz-radial-gradient(circle, #5e5e5e, #2F2727);
-
-    /* IE 10 */
-    background: -ms-radial-gradient(circle, #5e5e5e, #2F2727);
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
+    url("../assets/pics.jpg");
+    padding: 6% 0 0 0;
+    color: white;
 }
 
 #header{
@@ -328,4 +310,56 @@ ul > span.sm-side-heading{
 
 .sm-video {
     padding-bottom: 14px;
+}
+
+#fp-nav ul li a span, .fp-slidesNav ul li a span{
+    background: #f9f9f9 !important;
+}
+
+#picture{
+    position: relative;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#smaddikonda-pic{
+    width: 200px;
+    height: 200px;
+    margin-bottom: 30px;
+    border-radius: 20px;
+}
+
+#social-statement{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    position: relative;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#social-icons{
+    margin-top: 20px;
+    position: relative;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.social-icons{
+    margin: 10px;
+}
+
+#email{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
